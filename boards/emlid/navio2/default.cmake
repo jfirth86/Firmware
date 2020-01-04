@@ -18,6 +18,7 @@ px4_add_board(
 		gps
 		#imu # all available imu drivers
 		imu/mpu9250
+		imu/st/lsm9ds1
 		linux_pwm_out
 		linux_sbus
 		#magnetometer # all available magnetometer drivers
@@ -26,7 +27,6 @@ px4_add_board(
 		#telemetry # all available telemetry drivers
 	DF_DRIVERS # NOTE: DriverFramework is migrating to intree PX4 drivers
 		isl29501
-		lsm9ds1
 		mpu9250
 		trone
 	MODULES

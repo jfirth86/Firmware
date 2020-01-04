@@ -1,6 +1,6 @@
 ############################################################################
 #
-#   Copyright (c) 2016 PX4 Development Team. All rights reserved.
+#   Copyright (c) 2020 PX4 Development Team. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -31,15 +31,24 @@
 #
 ############################################################################
 
-include_directories(../../../lib/DriverFramework/drivers)
-
 px4_add_module(
-	MODULE platforms__posix__drivers__df_lsm9ds1_wrapper
-	MAIN df_lsm9ds1_wrapper
+	MODULE drivers__imu__st__lsm9ds1
+	MAIN lsm9ds1
 	SRCS
-		df_lsm9ds1_wrapper.cpp
+		lsm9ds1_main.cpp
+
+		# accel/gyro
+		LSM9DS1.cpp
+		LSM9DS1.hpp
+		ST_LSM9DS1_Registers.hpp
+
+		# magnetometer
+		LSM9DS1_MAG.cpp
+		LSM9DS1_MAG.hpp
+		ST_LSM9DS1_MAG_Registers.hpp
 	DEPENDS
-		git_driverframework
-		df_driver_framework
-		df_lsm9ds1
+		drivers_accelerometer
+		drivers_gyroscope
+		drivers_magnetometer
+		px4_work_queue
 	)
