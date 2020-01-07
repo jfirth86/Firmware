@@ -16,6 +16,7 @@ px4_add_board(
 		TEL3:/dev/ttyS2  #                          (OcPoC Port 2)
 		TEL4:/dev/ttyS0  # uSharp-Patch             (OcPoC Port 5)
 	DRIVERS
+		adc
 		#barometer # all available barometer drivers
 		barometer/ms5611
 		batt_smbus

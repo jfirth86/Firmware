@@ -48,11 +48,6 @@
 #define BOARD_BATTERY1_V_DIV   (11.0f)
 //#define BOARD_BATTERY1_A_PER_V (15.391030303f)
 
-// Battery ADC channels
-#define ADC_BATTERY_VOLTAGE_CHANNEL     5
-#define ADC_BATTERY_CURRENT_CHANNEL     ((uint8_t)(-1))
-#define ADC_AIRSPEED_VOLTAGE_CHANNEL    ((uint8_t)(-1))
-
 #define BOARD_HAS_NO_BOOTLOADER
 
 #define BOARD_MAX_LEDS 4 // Number external of LED's this board has
@@ -67,6 +62,15 @@
 
 #define PX4_I2C_OBDEV_MPU9250 0x68
 #define PX4_I2C_OBDEV_BMP280  0x76
+
+/**
+ * ADC channels:
+ * These are the channel numbers of the ADCs of the microcontroller that can be used by the Px4 Firmware in the adc driver.
+ */
+#define ADC_CHANNELS (1 << 6)
+
+/* ADC defines to be used in sensors.cpp to read from a particular channel. */
+#define ADC_BATTERY_VOLTAGE_CHANNEL  6
 
 #include <system_config.h>
 #include <px4_platform_common/board_common.h>
@@ -86,8 +90,6 @@ void rc_cleaning(void);
 #define rc_i2c_lock_bus 	rc_i2c_claim_bus
 #define rc_i2c_unlock_bus	rc_i2c_release_bus
 #define rc_i2c_get_lock		rc_i2c_get_in_use_state
-
-#define rc_adc_read_raw		rc_adc_raw
 
 #define rc_servo_send_pulse_us			rc_send_servo_pulse_us
 

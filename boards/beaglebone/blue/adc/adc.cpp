@@ -1,6 +1,6 @@
 /****************************************************************************
  *
- *   Copyright (C) 2019 PX4 Development Team. All rights reserved.
+ *   Copyright (C) 2020 PX4 Development Team. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,9 +31,76 @@
  *
  ****************************************************************************/
 
-#include <drivers/drv_adc.h>
+#include <board_config.h>
 
-uint32_t px4_arch_adc_dn_fullcount(void)
+#include <drivers/drv_adc.h>
+#include <drivers/drv_hrt.h>
+
+#include <px4_platform_common/log.h>
+
+#include <fcntl.h>
+#include <stdint.h>
+#include <unistd.h>
+
+#define CHANNELS 8
+#define IIO_DIR "/sys/bus/iio/devices/iio:device0"
+
+#define ADC_MAX_CHAN 6
+int _channels_fd[ADC_MAX_CHAN];
+
+int px4_arch_adc_init(uint32_t base_address)
+{
+	for (int i = 0; i < ADC_MAX_CHAN; i++) {
+		_channels_fd[i] = -1;
+	}
+
+	return 0;
+}
+
+void px4_arch_adc_uninit(uint32_t base_address)
+{
+	for (int i = 0; i < ADC_MAX_CHAN; i++) {
+		::close(_channels_fd[i]);
+		_channels_fd[i] = -1;
+	}
+}
+
+uint32_t px4_arch_adc_sample(uint32_t base_address, unsigned channel)
+{
+	if (channel > ADC_MAX_CHAN) {
+		PX4_ERR("channel %d out of range: %d", channel, ADC_MAX_CHAN);
+		return UINT32_MAX; // error
+	}
+
+	// open channel if necessary
+	if (_channels_fd[channel] == -1) {
+		// ADC_SYSFS_PATH
+		char channel_path[strlen(ADC_SYSFS_PATH) + 5] {};
+
+		if (snprintf(channel_path, sizeof(channel_path), IIO_DIR"/in_voltage%d_raw", channel) == -1) {
+			PX4_ERR("adc channel: %d\n", channel);
+			return UINT32_MAX; // error
+		}
+
+		_channels_fd[channel] = ::open(channel_path, O_RDONLY);
+	}
+
+	char buffer[10] {};
+
+	if (::pread(_channels_fd[channel], buffer, sizeof(buffer), 0) < 0) {
+		PX4_ERR("read channel %d failed", channel);
+		return UINT32_MAX; // error
+	}
+
+	return atoi(buffer);
+}
+
+uint32_t px4_arch_adc_temp_sensor_mask()
+{
+	return 0;
+}
+
+uint32_t px4_arch_adc_dn_fullcount()
 {
 	return 1 << 12; // 12 bit ADC
 }
