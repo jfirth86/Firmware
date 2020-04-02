@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Standard apps for fixed wing
+#
+# NOTE: Script variables are declared/initialized/unset in the rcS script.
+#
+
+#
+# Start the attitude and position estimator.
+#
+ekf2 start
+
+#
+# Start attitude controller.
+#
+gb_att_control start

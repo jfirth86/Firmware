@@ -33,6 +33,33 @@ then
 fi
 
 #
+# Symmetric Glider setup.
+#
+if [ $VEHICLE_TYPE = gb ]
+then
+    if [ $MIXER = none ]
+	then
+		# Set default mixer for symmetric glider if not defined
+		set MIXER symmetric_glider
+	fi
+
+	if [ $MAV_TYPE = none ]
+	then
+		# Set a default MAV_TYPE = 1 if not defined
+		set MAV_TYPE 1
+	fi
+
+	# Set the mav type parameter.
+	param set MAV_TYPE ${MAV_TYPE}
+
+	# Load mixer and configure outputs.
+	sh /etc/init.d/rc.interface
+
+	# Start standard symmetric glider apps.
+	sh /etc/init.d/rc.gb_apps
+fi
+
+#
 # Multicopter setup.
 #
 if [ $VEHICLE_TYPE = mc ]
