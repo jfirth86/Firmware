@@ -1,0 +1,29 @@
+#!/bin/sh
+#
+# @name Symmetric Four Wing Glider
+#
+# @url https://snl-wiki.sandia.gov/
+#
+# @type Symmetric Glider
+# @class Plane
+#
+# @output MAIN1 right elevon (+Y Axis)
+# @output MAIN2 bottom elevon (+Z Axis)
+# @output MAIN3 left elevon (-Y Axis)
+# @output MAIN4 top elevon (-Z Axis)
+#
+# @maintainer Jason Firth <jfirth@sandia.gov>
+#
+
+sh /etc/init.d/rc.fw_defaults
+
+if [ $AUTOCNF = yes ]
+then
+	param set PWM_RATE 333
+fi
+
+# Configure this as plane
+set MAV_TYPE 1
+
+# Set mixer
+set MIXER symmetric_glider

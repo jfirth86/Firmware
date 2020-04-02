@@ -92,6 +92,10 @@ class ParameterGroup(object):
             return "Rover"
         elif (self.name == "Boat"):
             return "Boat"
+        """
+        elif (self.name == "Symmetric Glider"):
+            return "AxisSymmetricGlider"
+        """
         return "AirframeUnknown"
 
     def GetParams(self):
@@ -339,10 +343,10 @@ class SourceParser(object):
                             tag, desc = m.group(1, 2)
                             if (tag == "output"):
                                 key, text = desc.split(' ', 1)
-                                outputs[key] = text;
+                                outputs[key] = text
                             elif (tag == "board"):
                                 key, text = desc.split(' ', 1)
-                                archs[key] = text;
+                                archs[key] = text
                             else:
                                 tags[tag] = desc
                             current_tag = tag
