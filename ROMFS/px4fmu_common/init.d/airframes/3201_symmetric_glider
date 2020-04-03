@@ -5,7 +5,7 @@
 # @url https://snl-wiki.sandia.gov/
 #
 # @type Symmetric Glider
-# @class Plane
+# @class Rover
 #
 # @output MAIN1 right elevon (+Y Axis)
 # @output MAIN2 bottom elevon (+Z Axis)
@@ -20,10 +20,16 @@ sh /etc/init.d/rc.gb_defaults
 if [ $AUTOCNF = yes ]
 then
 	param set PWM_RATE 333
+	param set GB_GAIN_ERR_P 10.0
+	param set GB_GAIN_ERR_R 10.0
+	param set GB_GAIN_ERR_Y 10.0
 fi
 
 # Configure this as plane
-set MAV_TYPE 1
+# set MAV_TYPE 1
+
+# Configure this as rover
+set MAV_TYPE 10
 
 # Set mixer
 set MIXER symmetric_glider

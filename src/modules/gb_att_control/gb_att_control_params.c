@@ -73,7 +73,7 @@ PARAM_DEFINE_FLOAT(GB_R_TC, 0.4f);
  * @max 1.0
  * @decimal 2
  * @increment 0.01
- * @group FW Attitude Control
+ * @group GB Attitude Control
  */
 PARAM_DEFINE_FLOAT(GB_MAN_R_SC, 1.0f);
 
@@ -87,7 +87,7 @@ PARAM_DEFINE_FLOAT(GB_MAN_R_SC, 1.0f);
  * @min 0.0
  * @decimal 2
  * @increment 0.01
- * @group FW Attitude Control
+ * @group GB Attitude Control
  */
 PARAM_DEFINE_FLOAT(GB_MAN_P_SC, 1.0f);
 
@@ -101,6 +101,84 @@ PARAM_DEFINE_FLOAT(GB_MAN_P_SC, 1.0f);
  * @min 0.0
  * @decimal 2
  * @increment 0.01
- * @group FW Attitude Control
+ * @group GB Attitude Control
  */
 PARAM_DEFINE_FLOAT(GB_MAN_Y_SC, 1.0f);
+
+/**
+ * Roll Error Gain
+ *
+ * Factor by which the roll command error is scaled before being applied to the roll command.
+ *
+ * @unit norm
+ * @min 0.0
+ * @decimal 2
+ * @increment 0.01
+ * @group GB Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GB_GAIN_ERR_R, 1.0f);
+
+/**
+ * Pitch Error Gain
+ *
+ * Factor by which the pitch command error is scaled before being applied to the pitch command.
+ *
+ * @unit norm
+ * @min 0.0
+ * @decimal 2
+ * @increment 0.01
+ * @group GB Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GB_GAIN_ERR_P, 1.0f);
+
+/**
+ * Yaw Error Gain
+ *
+ * Factor by which the yaw command error is scaled before being applied to the yaw command.
+ *
+ * @unit norm
+ * @min 0.0
+ * @decimal 2
+ * @increment 0.01
+ * @group GB Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GB_GAIN_ERR_Y, 1.0f);
+
+/**
+ * Roll Rate Gain
+ *
+ * Factor by which the roll rate is scaled before being applied to the roll command.
+ *
+ * @unit norm
+ * @min 0.0
+ * @decimal 2
+ * @increment 0.01
+ * @group GB Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GB_GAIN_RATE_R, 1.0f);
+
+/**
+ * Pitch Rate Gain
+ *
+ * Factor by which the pitch rate is scaled before being applied to the pitch command.
+ *
+ * @unit norm
+ * @min 0.0
+ * @decimal 2
+ * @increment 0.01
+ * @group GB Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GB_GAIN_RATE_P, 1.0f);
+
+/**
+ * Yaw Rate Gain
+ *
+ * Factor by which the yaw rate is scaled before being applied to the yaw command.
+ *
+ * @unit norm
+ * @min 0.0
+ * @decimal 2
+ * @increment 0.01
+ * @group GB Attitude Control
+ */
+PARAM_DEFINE_FLOAT(GB_GAIN_RATE_Y, 1.0f);

@@ -154,7 +154,8 @@
                 "utility": "cpp",
                 "valarray": "cpp",
                 "variant": "cpp",
-                "vector": "cpp"
+                "vector": "cpp",
+                "*.ipp": "cpp"
         },
         "search.exclude": {
                 "build/**": true

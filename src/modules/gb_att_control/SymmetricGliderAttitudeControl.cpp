@@ -144,8 +144,16 @@ void SymmetricGliderAttitudeControl::Run()
 		last_run = hrt_absolute_time();
 
 		float t = (float)run_count * deltaT;
-
+		float cmd[3] = {0.0f};
 		run_count++;
+
+        static matrix::Quaternionf q_init;
+
+		/* for the first second, command the current attitude */
+		if (t < 1.0f)
+		{
+			q_init = matrix::Quaternionf(_att.q);
+		}
 
 		/* get current rotation matrix and euler angles from control state quaternions */
 		matrix::Dcmf R = matrix::Quatf(_att.q);
@@ -167,11 +175,28 @@ void SymmetricGliderAttitudeControl::Run()
 		vehicle_manual_poll();
 		_global_pos_sub.update(&_global_pos);
 
-		_actuators.control[actuator_controls_s::INDEX_ROLL] = 0.0f;
 
-		_actuators.control[actuator_controls_s::INDEX_PITCH] = sinf(6.28f*t);
+		/* calculate the error quaternion */
+		matrix::Quaternionf qCmdToBody = q_init * matrix::Quaternionf(_att.q).inversed();
 
-		_actuators.control[actuator_controls_s::INDEX_YAW] = 0.0f;
+		cmd[0] += 0.0f * qCmdToBody(1) * _param_gb_gain_err_r.get();
+		cmd[1] += 0.0f * qCmdToBody(2) * _param_gb_gain_err_p.get();
+		cmd[2] += 0.0f * qCmdToBody(3) * _param_gb_gain_err_y.get();
+
+		cmd[0] += _att.q[1] * _param_gb_gain_err_r.get();
+		cmd[1] += _att.q[2] * _param_gb_gain_err_p.get();
+		cmd[2] += _att.q[3] * _param_gb_gain_err_y.get();
+
+		cmd[0] -= angular_velocity.xyz[0] * _param_gb_gain_rate_r.get();
+		cmd[1] -= angular_velocity.xyz[1] * _param_gb_gain_rate_p.get();
+		cmd[2] -= angular_velocity.xyz[2] * _param_gb_gain_rate_y.get();
+
+
+		_actuators.control[actuator_controls_s::INDEX_ROLL] = cmd[0];
+
+		_actuators.control[actuator_controls_s::INDEX_PITCH] = cmd[1];
+
+		_actuators.control[actuator_controls_s::INDEX_YAW] = cmd[2];
 
 		_actuators.control[actuator_controls_s::INDEX_THROTTLE] = 0.0f;
 

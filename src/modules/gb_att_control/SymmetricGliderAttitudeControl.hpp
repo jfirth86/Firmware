@@ -122,23 +122,18 @@ private:
 
 	perf_counter_t	_loop_perf;			/**< loop performance counter */
 
-	float _flaps_applied{0.0f};
-	float _flaperons_applied{0.0f};
-
-	float _airspeed_scaling{1.0f};
-
-	bool _landed{true};
-
-	float _battery_scale{1.0f};
-
-	bool _flag_control_attitude_enabled_last{false};
-
-	bool _is_tailsitter{false};
-
 	DEFINE_PARAMETERS(
 		(ParamFloat<px4::params::GB_MAN_P_SC>) _param_gb_man_p_sc,
 		(ParamFloat<px4::params::GB_MAN_R_SC>) _param_gb_man_r_sc,
 		(ParamFloat<px4::params::GB_MAN_Y_SC>) _param_gb_man_y_sc,
+
+		(ParamFloat<px4::params::GB_GAIN_ERR_R>) _param_gb_gain_err_r, /* roll position gain */
+		(ParamFloat<px4::params::GB_GAIN_ERR_P>) _param_gb_gain_err_p, /* pitch position gain */
+		(ParamFloat<px4::params::GB_GAIN_ERR_Y>) _param_gb_gain_err_y, /* yaw position gain */
+
+		(ParamFloat<px4::params::GB_GAIN_RATE_R>) _param_gb_gain_rate_r, /* roll rate gain */
+		(ParamFloat<px4::params::GB_GAIN_RATE_P>) _param_gb_gain_rate_p, /* pitch rate gain */
+		(ParamFloat<px4::params::GB_GAIN_RATE_Y>) _param_gb_gain_rate_y, /* yaw rate gain */
 
 		(ParamFloat<px4::params::TRIM_PITCH>) _param_trim_pitch,
 		(ParamFloat<px4::params::TRIM_ROLL>) _param_trim_roll,
